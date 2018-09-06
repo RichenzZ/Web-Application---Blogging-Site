@@ -1,6 +1,12 @@
-To turn in homework 1, create files (and subdirectories if needed) in
-this directory, add and commit those files to your cloned repository,
-and push your commit to your bare repository on GitHub.
+/wireframes: pictures of original and revised design of my website as well as feedback from my peer.
+/src: 
+  /css: css library of bootstrap
+  /pic: pictures used in the website, such as photos of users
+  page_global.html: the page for global stream
+  page_login.html: the page for log in
+  page_profile: the page for user profile
+  page_signup: the page for registration
 
-Add any general notes or instructions for the TAs to this README file.
-The TAs will read this file before evaluating your work.
+Reference:
+Bootstrap: https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
+Navbar:https://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_temp_social&stacked=h
