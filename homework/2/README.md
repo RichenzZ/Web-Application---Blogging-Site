@@ -1,6 +1,10 @@
-To turn in homework 2, create files (and subdirectories if needed) in
-this directory, add and commit those files to your cloned repository,
-and push your commit to your bare repository on GitHub.
+Reason for choose POST request: post method allows the data sent to the server to be stored in the request body so that in the views.py we can fetch what we need for computing the result more easily. Besides, post method does not have its data shown in the url, which I think it is better get method in an application like calculator.
 
-Add any general notes or instructions for the TAs to this README file.
-The TAs will read this file before evaluating your work.
+Some special inputs:
+if user inputs operator consecutively, the calculator will compute the result by using the last result. 
+eg: "result + +" will get result + result, "result - -" will get result - result
+
+Invalid input:
+when invalid inputs like divide by zero happen, the app will display message "Something is Wrong, the app is reset" and reset the app.
+
+
