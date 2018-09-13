@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Calculator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="static/css/bootstrap.min.css" />
+    <h1 class="text-center">Welcome to My Calculator</h1>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+</head>
+    <style>
+            button:hover {
+                background-color: #4CAF50; /* Green */
+                color: Black;
+            }
+            .right {
+                float: right;
+            }
+    </style>
+<body>
+    <div class="container col-md-4 col-md-offset-4" style="margin-top: 100px;">
+        <form action="" method="POST">
+            <div class="form-group col-md-8 col-md-offset-4 right">
+            <input type="hidden" name="csrf_token" value="siadnasnifoasd">
+            <input type="text" name="display" value="0" style="width: 160px;">
+            <!-- <input type="hidden" name="curval" value="0"> -->
+            <input type="hidden" name="prev_op" value="">
+            <input type="hidden" name="pre_val" value="0">
+            </div>
+        <div class="form-group col-md-8 col-md-offset-4 right">
+        <!-- <div class="row"> -->
+            <button type="submit" name="digit" class="btn btn-outline-info" value="7">7</button>
+            <button type="submit" name="digit" class="btn btn-outline-info" value="8">8</button>
+            <button type="submit" name="digit" class="btn btn-outline-info" value="9">9</button>
+            <button type="submit" class="btn btn-outline-secondary" name="operator" value="+">&plus;</button>
+        </div>
+        <!-- <div class="row"> -->
+        <div class="form-group col-md-8 col-md-offset-4 right">
+            <button type="submit" name="digit" class="btn btn-outline-info" value="4">4</button>
+            <button type="submit" name="digit" class="btn btn-outline-info" value="5">5</button>
+            <button type="submit" name="digit" class="btn btn-outline-info" value="6">6</button>
+            <button type="submit" class="btn btn-outline-secondary">&minus;</button>
+        </div>
+        <div class="form-group col-md-8 col-md-offset-4 right">
+            <button type="submit" name="digit" class="btn btn-outline-info" value="1">1</button>
+            <button type="submit" name="digit" class="btn btn-outline-info" value="2">2</button>
+            <button type="submit" name="digit" class="btn btn-outline-info" value="3">3</button>
+            <button type="submit" class="btn btn-outline-secondary">&times;</button>
+        </div>
+        <div class="form-group col-md-8 col-md-offset-4 right" style="padding-left: 50px;">
+            <button type="submit" name="digit" class="btn btn-outline-info" value="0">0</button>
+            <button type="submit" class="btn btn-outline-secondary">&equals;</button>
+            <button type="submit" class="btn btn-outline-secondary">&divide;</button>
+        </div>
+        </form>
+    </div>
+
+
+
+
+</body>
+</html>
