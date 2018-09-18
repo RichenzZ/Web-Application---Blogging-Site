@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Grumblr</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static "/css/bootstrap337.min.css" %}" />    
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+</head>
+
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Grumblr</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Global</a></li>
+                    <li><a href="../">Log into existing user</a></li>
+                    <!-- <li><a href="#"><span class="caret"></span>Settings</a></li> -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="jumbotron text-center">
+        <h2> Create a New Account</h2>
+        {% for message in messages %}
+        <p style="color:red">
+        {{message}}
+        </p>
+        {%endfor %}
+        <div class="container">
+            <form method="post">
+                <div class="row">
+                    <div class="form-group col-sm-4"></div>
+                    <!-- <div class="row"> -->
+                        <div class="form-group col-sm-2">
+                            <input type="firstname" class="form-control" name="firstname" value="{{firstname}}" placeholder="Fisrt Name">
+                        </div>
+                        <!-- <div class="col-sm-2"></div> -->
+                        <div class="form-group col-sm-2">
+                            <input type="lastname" class="form-control" name="lastname" value="{{lastname}}" placeholder="Last Name">
+                        </div>
+                    <!-- </div> -->
+                
+                    <div class="form-group col-sm-4"></div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-4"></div>
+                    <div class="form-group col-sm-4">
+                        <input type="username" class="form-control" name="username" value="{{username}}" placeholder="Username">
+                    </div>
+                    <div class="form-group col-sm-4"></div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-4"></div>
+                    <div class="form-group col-sm-4">
+                        <input type="email" class="form-control" name="email"  value="{{email}}" placeholder="Email">
+                    </div>
+                    <div class="form-group col-sm-4"></div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-4"></div>
+                    <div class="form-group col-sm-4">
+                        <input type="password" class="form-control" name="password" placeholder="Enter Password">
+                    </div>
+                    <div class="form-group col-sm-4"></div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-4"></div>
+                    <div class="form-group col-sm-4">
+                        <input type="password" class="form-control" name="confirmpassword" placeholder="Confirm Password">
+                    </div>
+                    <div class="form-group col-sm-4"></div>
+                </div>
+
+                <button type="submit" class="btn-primary">Sign Up</button>
+                {% csrf_token %}
+            </form>
+            <p>By signing up, you agree to our terms</p>
+        </div>
+    </div>
+
+</body>
+
+</html>
