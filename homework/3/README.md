@@ -1,6 +1,19 @@
-To turn in homework 3, create files (and subdirectories if needed) in
-this directory, add and commit those files to your cloned repository,
-and push your commit to your bare repository on GitHub.
+The empty url ​http://localhost:8000/ will lead to the login page
+several users have been created.
+username: user1
+password: 123
+username: user2
+password: 123
+username: test
+password: 123
 
-Add any general notes or instructions for the TAs to this README file.
-The TAs will read this file before evaluating your work.
+Global page is where you can view all the posts of others and make your own posts.
+Profile page is where you can view anyone's profile
+
+When log in, if username or password is wrong, the page will indicate
+"incorrect username and password"
+
+When sign up, username, first name, last name, password, confirmation password must be inputed, and password must match. The page will indicate corresponding errors.
+
+The image directory issue has not been fixed, so the images cannot be displayed at the moment. Sorry about that.
+
