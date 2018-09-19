@@ -36,7 +36,8 @@
             <div class="col-sm-2 sidenav">
                 <div class="well">
                     <p>Username: {{user.username}}</p>
-                    <img src="/grumblr/pic/dog1.jpg" class="img-circle" height="65" width="65" alt="profile picture">
+                    {% load static %}
+                    <img src="{% static "/pic/dog1.jpg" %}" class="img-circle" height="65" width="65" alt="profile picture">
                 </div>
                 <div class="well">
                     <h4>Hot Topics</h4>
@@ -68,7 +69,8 @@
                     <div class="row">
                         <div class="col-sm-2">
                                 <p><a href="../view_profile/{{item.user.id}}">{{item.user.username}}</a></p>
-                                <img src="../grumblr/pic/dog2.jpg" class="img-circle" height="55" width="55" alt="xxx">
+                                {% load static %}
+                                <img src="{% static "/pic/dog3.jpg" %}"  class="img-circle" height="55" width="55" alt="xxx">
                         </div>
                         <div class="col-sm-10">
                                 <!-- {{item}} -->
