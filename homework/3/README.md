@@ -15,5 +15,5 @@ When log in, if username or password is wrong, the page will indicate
 
 When sign up, username, first name, last name, password, confirmation password must be inputed, and password must match. The page will indicate corresponding errors.
 
-The image directory issue has not been fixed, so the images cannot be displayed at the moment. Sorry about that.
+The image display is current static, which means it cannot distribute a different profile picture to different user. 
 
