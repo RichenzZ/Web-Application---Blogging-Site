@@ -1,7 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 
+# Decorator to use built-in authentication system
+from django.contrib.auth.decorators import login_required
+
+# Used to create and manually log in a user
+from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate
+
 from sio.models import *
+from sio.forms import *
 
 def home(request):
     context = {'courses':Course.objects.all(), 'messages':[]}
