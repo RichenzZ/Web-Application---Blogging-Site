@@ -63,10 +63,12 @@ def register_student(request):
 
 # A short example of how to render json with a template. 
 # Note the Content-type used.
-def get_sample_student(request):
+def get_sample_students(request):
     paul = {'first_name': 'Paul', 'last_name': 'Aluri'}
-    context = {'person': paul}
-    return render(request, 'student.json', context, content_type='application/json')
+    shannon = {'first_name': 'Shannon', 'last_name': 'Lee'}
+    sample_students = [paul, shannon]
+    context = {'students': sample_students}
+    return render(request, 'students.json', context, content_type='application/json')
 
 
 # TODO: Complete this action to generate a JSON response containing all courses
