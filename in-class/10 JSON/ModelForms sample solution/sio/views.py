@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.db import transaction
+from django.core import serializers
 
 from sio.forms import *
 
@@ -73,6 +74,11 @@ def get_sample_students(request):
 
 # TODO: Complete this action to generate a JSON response containing all courses
 def get_all_courses(request):
-    return None
+	course1 = {'course_number': '123', 'course_name': 'web', 'instructor': 'abc'}
+	sample_courses = [course1]
+	context = {'courses': sample_courses}
+	return render(request, 'courses.json', context, content_type='application/json')
 
-
+def serilizer(request):
+	data = serializers.serialize('json', Course.objects.all())
+	return JsonResponse(data)
