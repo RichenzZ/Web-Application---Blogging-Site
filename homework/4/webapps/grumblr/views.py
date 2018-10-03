@@ -18,7 +18,12 @@ from grumblr.forms import *
 def home(request):
     items = Item.objects.all().order_by('-date')
     entries = Entry.objects.filter(owner=request.user).first()
-    return render(request, 'global.html', {'items': items, "user": request.user, 'entries':entries})
+    # return render(request, 'global.html', {"user": request.user, 'entries':entries})
+    # return render(request, 'global.html', {'items': items})
+    for i in items:
+    	print(i)
+
+    return render(request, 'global.html', {"items": items, "user": request.user, 'entries':entries})
 
 @login_required
 def follower_stream(request):
