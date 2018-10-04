@@ -18,29 +18,29 @@ from grumblr.forms import *
 def home(request):
     items = Item.objects.all().order_by('-date')
     entries = Entry.objects.filter(owner=request.user).first()
-    # return render(request, 'global.html', {"user": request.user, 'entries':entries})
-    # return render(request, 'global.html', {'items': items})
-    for i in items:
-    	print(i)
-
     return render(request, 'global.html', {"items": items, "user": request.user, 'entries':entries})
 
 @login_required
 def follower_stream(request):
-	followings = Person(user=request.user).get_follow() #person object
-	users = followings.user
+	followings = Person.objects.get(user=request.user).get_follow() #person object
+	# print(followings)
+	# users = followings.user
 	items = Item.objects.none()
 	for following in followings:
+		print(following)
 		items = items | Item.objects.filter(user=following.user)
 	items = items.order_by('-date')
-	return render(request, 'global.html', {'items': items, "user": request.user})
+	entries = Entry.objects.filter(owner=request.user).first()
+	return render(request, 'followers.html', {'items': items, "user": request.user,'entries':entries})
 
 @login_required
 def follow(request, user_id):
 	if user_id != request.user.id:
 		user = User.objects.get(id=user_id)
 		from_person = Person.objects.get(user=request.user)
+		print(request.user)
 		to_person = Person.objects.get(user=user)
+		print(user)
 		relationship = Relationship.add_follow(from_person, to_person)
 		relationship.save()
 	return redirect(reverse('profile'))
@@ -49,6 +49,7 @@ def follow(request, user_id):
 def unfollow(request, user_id):
 	if user_id != request.user.id:
 		user = User.objects.get(id=user_id)
+		print(request.user, user)
 		from_person = Person.objects.get(user=request.user)
 		to_person = Person.objects.get(user=user)
 		Relationship.remove_follow(from_person, to_person)
@@ -91,8 +92,11 @@ def add_entry(request):
 	# def add_e():
 	context = {}
 	my_entry = Entry.get_entries(request.user)
+	if not my_entry:
+		my_entry = Entry(owner=request.user)
 	if request.method == 'GET':
 		context['form'] = EntryForm(instance=my_entry)
+		context['user'] = request.user
 		return render(request, 'editprofile.html', context)
 
 	form = EntryForm(request.POST, request.FILES, instance=my_entry)	
@@ -125,11 +129,13 @@ def edit_entry(request):
 	# transaction.on_commit(edit_e)
 
 @login_required
-def get_photo(request):
+def get_photo(request, user_id):
 	# entry = get_object_or_404(Entry, owner=request.user)
 	# if not entry.picture:
 	# 	raise Http404
-	entry = Entry.get_entries(request.user)
+	user = User.objects.get(id=user_id)
+	entry = Entry.objects.filter(owner=user).first()
+	# entry = Entry.get_entries(user)
 	if not entry.picture:
 		print('no photo!')
 		return redirect(reverse('profile'))
@@ -149,11 +155,11 @@ def sign_up(request):
 		return render(request, 'signup.html', context)
 	new_user = User.objects.create_user(username=form.cleaned_data['username'],
 										email=form.cleaned_data['email1'],
-								    	firstname=form.cleaned_data['firstname'],
-								    	lastname=form.cleaned_data['lastname'],
                                         password=form.cleaned_data['password1'])
 
 	new_user.save()
+	person = Person(user=new_user)
+	person.save()
 	login(request, new_user)
 	return redirect(reverse('home'))
     # Logs in the new user and redirects to his/her todo list

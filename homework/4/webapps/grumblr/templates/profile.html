@@ -13,6 +13,7 @@
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="{% url 'home' %}">Global</a></li>
+                    <li><a href="{% url 'follower_stream' %}">Follower Stream</a></li>
                     <li><a href="{% url 'profile' %}">Profile</a></li>
                     <li><a href="{% url 'edit_profile' %}">Edit Profile</a></li>
                     <li><a href="{% url 'logout' %}">Log out</a></li>
@@ -30,7 +31,7 @@
 
                     {% if entries.picture %}
                     <p>photo:</p>>
-                    <img src="{% url 'photo' %}" width="100px">
+                    <img src="{% url 'photo' user.id %}" class="img-circle" height="55" width="55">
                     {% endif %}
                     <!-- {% load static %} -->
                     <!-- <img src="{% static "/pic/dog1.jpg" %}" class="img-circle" height="65" width="65" alt="xxx"> -->
@@ -55,8 +56,9 @@
                     <div class="row">
                         <div class="col-sm-2">
                             <p>{{item.user.username}}</p>
-                            {% load static %}
-                            <img src="{% static "/pic/dog1.jpg" %}" class="img-circle" height="55" width="55" alt="xxx">
+                            {% if entries.picture %}
+                            <img src="{% url 'photo' item.user.id %}" class="img-circle" height="55" width="55">
+                            {% endif %}
                         </div>
                         <div class="col-sm-10">
                                 <p>{{item.date}}<br>{{item.text}}</p>

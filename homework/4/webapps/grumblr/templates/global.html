@@ -12,6 +12,7 @@
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="{% url 'home' %}">Global</a></li>
+                    <li><a href="{% url 'follower_stream' %}">Follower Stream</a></li>
                     <li><a href="{% url 'profile' %}">Profile</a></li>
                     <li><a href="{% url 'logout' %}">Log out</a></li>
                     <!-- <li><a href="#"><span class="caret"></span>Settings</a></li> -->
@@ -26,8 +27,7 @@
                 <div class="well">
                     <p>Username: {{user.username}}</p>
                     {% if entries.picture %}
-                    <p>photo:</p>>
-                    <img src="{% url 'photo' %}" width="100px">
+                    <img src="{% url 'photo' user.id %}" class="img-circle" height="55" width="55">
                     {% endif %}
                 </div>
                 <div class="well">
@@ -36,35 +36,31 @@
                     <p><a href="#">Web</a></p>
                     <p><a href="#">bala</a></p>
                 </div>
-
             </div>
-            <form action="/add_post" method="post">
-                <div class="col-sm-8 text-left">
+            <div class="col-sm-8 text-left">
+                    <form action="/add_post" method="post">
                     <h1>Posts</h1>
                       <div class="row">
                         <div class="col-sm-12">
                           <div class="panel panel-default text-left">
                             <div class="panel-body">
-<!--                               <input type="text" name="newpost"> -->
-                           <!-- <p contenteditable="true" name="item">Share your status!</p> -->
                               <input type="text" name="item" placeholder="Share your status!" size="42"><br>
                               <button type="submit" class="btn btn-default btn-sm">Post</button>     
                             </div>
                           </div>
                         </div>
                       </div>
-                </div>
-                {% csrf_token %}
-              </form>
+                      {% csrf_token %}
+                    </form>
+
                 {% for item in items %}
                 <div class="well">
                     <div class="row">
                         <div class="col-sm-2">
-                                <p><a href="../view_profile/{{item.user.id}}">{{item.user.username}}</a></p>
-
-<!--                                 <p><a href="{% url 'profile' item.user.id%}">{{item.user.username}}</a></p>
- -->                                <!-- {% load static %}
-                                <img src="{% static "/pic/dog3.jpg" %}"  class="img-circle" height="55" width="55" alt="xxx"> -->
+                            <p><a href="{% url 'view_profile' item.user.id%}">{{item.user.username}}</a></p>
+                            {% if entries.picture %}
+                            <img src="{% url 'photo' item.user.id %}" class="img-circle" height="55" width="55">
+                            {% endif %}
                         </div>
                         <div class="col-sm-10">
                                 <p>{{item.date}}<br>{{item.text}}</p>
@@ -82,9 +78,8 @@
                     <li><a href="#">5</a></li>
                     <li><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
                 </ul>
-                <hr>
-
             </div>
+
             <div class="col-sm-2 sidenav">
                 <h4>People you may want to know</h4>
                 <div class="well">
@@ -95,6 +90,6 @@
                 </div>
             </div>
         </div>
-<!--     </div>
- -->
+    </div>
+
 {% endblock %}

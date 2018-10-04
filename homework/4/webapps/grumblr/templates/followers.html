@@ -27,7 +27,7 @@
                     <p>Username: {{user.username}}</p>
                     {% if entries.picture %}
                     <p>photo:</p>>
-                    <img src="{% url 'photo' %}" width="100px">
+                    <img src="{% url 'photo' user.id %}" class="img-circle" height="55" width="55">
                     {% endif %}
                 </div>
                 <div class="well">
@@ -38,13 +38,16 @@
                 </div>
 
             </div>
+            <div class="col-sm-8 text-left">
+                <h1>Follower Stream</h1>
                 {% for item in items %}
                 <div class="well">
                     <div class="row">
                         <div class="col-sm-2">
-                                <p><a href="../view_profile/{{item.user.id}}">{{item.user.username}}</a></p>
-                                {% load static %}
-                                <img src="{% static "/pic/dog3.jpg" %}"  class="img-circle" height="55" width="55" alt="xxx">
+                                <p><a href="{% url 'view_profile' item.user.id%}">{{item.user.username}}</a></p>
+                                {% if entries.picture %}
+                                <img src="{% url 'photo' item.user.id %}" class="img-circle" height="55" width="55">
+                                {% endif %}
                         </div>
                         <div class="col-sm-10">
                                 <p>{{item.date}}<br>{{item.text}}</p>
