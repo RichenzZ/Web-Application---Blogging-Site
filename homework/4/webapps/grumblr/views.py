@@ -26,7 +26,6 @@ def follower_stream(request):
 	followings = Person.objects.get(user=request.user).get_follow()
 	items = Item.objects.none()
 	for following in followings:
-		print(following)
 		items = items | Item.objects.filter(user=following.user)
 	items = items.order_by('-date')
 	entries = Entry.objects.filter(owner=request.user).first()
@@ -37,9 +36,7 @@ def follow(request, user_id):
 	if user_id != request.user.id:
 		user = User.objects.get(id=user_id)
 		from_person = Person.objects.get(user=request.user)
-		print(request.user)
 		to_person = Person.objects.get(user=user)
-		print(user)
 		relationship = Relationship.add_follow(from_person, to_person)
 		relationship.save()
 	return redirect(reverse('follower_stream'))
@@ -48,7 +45,6 @@ def follow(request, user_id):
 def unfollow(request, user_id):
 	if user_id != request.user.id:
 		user = User.objects.get(id=user_id)
-		print(request.user, user)
 		from_person = Person.objects.get(user=request.user)
 		to_person = Person.objects.get(user=user)
 		Relationship.remove_follow(from_person, to_person)
