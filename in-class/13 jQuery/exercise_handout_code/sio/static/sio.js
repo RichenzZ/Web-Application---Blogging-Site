@@ -2,8 +2,29 @@
 // It establishes the necessary HTTP header fields and cookies to use
 // Django CSRF protection with jQuery Ajax requests.
 
-$( document ).ready(function() {  // Runs when the document is ready
 
+$( document ).ready(function() {  // Runs when the document is ready
+function getcourses() {
+    var list = $("#courses-list")
+    // $.get("sio/")
+        $.get("sio/get-courses/")
+
+      .done(function(data) {
+        console.log(data);
+        updateChanges(data);
+          list.data('courses', data['courses']);
+          for (var i = 0; i < data.items.length; i++) {
+              var item = data.items[i];
+
+                  var new_item = $(item.html);
+                  console.log(new_item);
+                  // new_item.data("item-id", item.id);
+                  list.append(new_item);
+
+  
+          }
+      });
+    }
   // using jQuery
   // https://docs.djangoproject.com/en/1.10/ref/csrf/
   function getCookie(name) {
@@ -40,8 +61,6 @@ $( document ).ready(function() {  // Runs when the document is ready
   // TODO:  Use jQuery to send an Ajax GET request to /sio/get-courses and
   // update the list of courses on the web page.  (Use our provided
   // helper method, updateChanges, below.)
-
-
 
   $('#create-student-form').on('submit', function(event) {
       event.preventDefault(); // Prevent form from being submitted
@@ -95,5 +114,8 @@ $( document ).ready(function() {  // Runs when the document is ready
     // Update timestamp
     $('#timestamp').val(data.timestamp);
   }
+    // window.setInterval(updateChanges, 5000);
+    // updateChanges(data);
+    getcourses();
 
 }); // End of $(document).ready
