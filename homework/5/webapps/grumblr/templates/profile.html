@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Grumblr</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{% url 'home' %}">Global</a></li>
+                    <li><a href="{% url 'follower_stream' %}">Follower Stream</a></li>
+                    <li><a href="{% url 'profile' %}">Profile</a></li>
+                    <li><a href="{% url 'edit_profile' %}">Edit Profile</a></li>
+                    <li><a href="{% url 'reset_password' %}">Change Password</a></li>
+                    <li><a href="{% url 'logout' %}">Log out</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid text-center">
+        <div class="row content">
+            <div class="col-sm-2 sidenav">
+                <div class="well">
+                    <p>{{user.username}}</p>
+
+                    {% if entries.picture %}
+                    <p>photo:</p>>
+                    <img src="{% url 'photo' user.id %}" class="img-circle" height="55" width="55">
+                    {% endif %}
+
+                </div>
+                <div class="well">
+                    <h4>User Info</h4>
+                    {% if entries.firstname %}
+                    <p>Firstname: {{entries.firstname}} </p>
+                    {% else %}
+                    <p>Firstname: {{user.first_name}} </p>
+                    {% endif %}
+                    {% if entries.firstname %}
+                    <p>lastname: {{entries.lastname}} </p>
+                    {% else %}
+                    <p>Lastname: {{user.last_name}} </p>
+                    {% endif %}
+                    <p>age: {{entries.age}}</p>
+                    <p>bio: {{entries.bio}}</p>
+                    <table>
+                    {{form}}
+                    </table>
+                </div>
+
+            </div>
+            <div class="col-sm-8 text-left">
+                <h1>Profile</h1>
+                {% for item in items %}
+                <div class="well">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <p>{{item.user.username}}</p>
+                            {% if entries.picture %}
+                            <img src="{% url 'photo' item.user.id %}" class="img-circle" height="55" width="55">
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-10">
+                                <p>{{item.date}}<br>{{item.text}}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+            <div class="col-sm-2 sidenav">
+                <div class="well">
+                    {% if status is True %}
+                    <p><a href="#">Follow</a></p>
+                    {% elif status is False%}
+                    <p><a href="{% url 'follow' user.id%}">Follow</a></p>
+                    {% endif %}
+                </div>
+                <div class="well">
+                    {% if status is True %}
+                    <p><a href="{% url 'unfollow' user.id %}">Unfollow</a></p>
+                    {% elif status is False%}
+                    <p><a href="#">unFollow</a></p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
