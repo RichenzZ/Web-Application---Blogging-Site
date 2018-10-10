@@ -7,14 +7,13 @@ $( document ).ready(function() {  // Runs when the document is ready
 function getcourses() {
     var list = $("#courses-list")
     // $.get("sio/")
-        $.get("sio/get-courses/")
-
+      $.get("sio/get-courses/")
       .done(function(data) {
         console.log(data);
         updateChanges(data);
           list.data('courses', data['courses']);
-          for (var i = 0; i < data.items.length; i++) {
-              var item = data.items[i];
+          for(var i = 0; i < data.courses.length; i++) {
+              var item = data.courses[i];
 
                   var new_item = $(item.html);
                   console.log(new_item);
