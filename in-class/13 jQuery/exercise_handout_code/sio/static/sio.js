@@ -62,6 +62,16 @@ function getcourses() {
   // helper method, updateChanges, below.)
 
   $('#create-student-form').on('submit', function(event) {
+      var form = $(this);
+          $.ajax({
+           type: "POST",
+           url: "/sio/create-student/",
+           data: form.serialize(), // serializes the form's elements.
+           success: function(data)
+           {
+               alert(data); // show response from the php script.
+           }
+         });
       event.preventDefault(); // Prevent form from being submitted
 
       // TODO:  Use jQuery to send an Ajax POST request to /sio/create-student.
@@ -69,6 +79,16 @@ function getcourses() {
 
 
   $('#create-course-form').on('submit', function(event) {
+        var form = $(this);
+          $.ajax({
+           type: "POST",
+           url: "sio/create-course/",
+           data: form.serialize(), // serializes the form's elements.
+           success: function(data)
+           {
+               alert(data); // show response from the php script.
+           }
+         });
       event.preventDefault(); // Prevent form from being submitted
 
       // TODO:  Use jQuery to send an Ajax POST request to /sio/create-course.
@@ -113,8 +133,8 @@ function getcourses() {
     // Update timestamp
     $('#timestamp').val(data.timestamp);
   }
-    // window.setInterval(updateChanges, 5000);
+    window.setInterval(getcourses, 5000);
     // updateChanges(data);
-    getcourses();
+    // getcourses();
 
 }); // End of $(document).ready
