@@ -1,0 +1,7 @@
+{
+"text":"{{item.text}}",
+"html": "{{item.html|safe}}",
+"comments" : [
+    {% for comment in item.comments.all %}"{{comment.html|safe}}"{% if not forloop.last %}, {% endif %}{% endfor %}
+  ]
+}

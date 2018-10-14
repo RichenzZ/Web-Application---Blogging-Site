@@ -6,6 +6,10 @@ from django.http import HttpResponse, Http404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.http import JsonResponse
+from django.core import serializers
+
 
 from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
@@ -15,11 +19,14 @@ from mimetypes import guess_type
 from grumblr.models import *
 from grumblr.forms import *
 
+
+@ensure_csrf_cookie  # Gives CSRF token for later requests.
 @login_required
 def home(request):
     items = Item.objects.all().order_by('-date')
     entries = Entry.objects.filter(owner=request.user).first()
     return render(request, 'global.html', {"items": items, "user": request.user, 'entries':entries})
+	# return render(request, 'global.html', {})
 
 @login_required
 def follower_stream(request):
@@ -87,7 +94,7 @@ def add_post(request):
 	context = {'items': items, 'message': message, 'entries':entries}
 	return render(request, 'global.html', context)
 
-def update_post(request):
+# def update_post(request):
 	
 
 @login_required
@@ -100,7 +107,7 @@ def add_comment(request, pk):
 		new_comment.save()
 	items = Item.objects.all().order_by('-date')
 	entries = Entry.objects.filter(owner=request.user).first()
-	context = {'items': items, 'entries':entries}
+	context = {'items': items, 'entries': entries, "max_time": max_time}
 	return render(request, 'global.html', context)
 
 @login_required
@@ -249,4 +256,49 @@ def log_in(request):
 def log_out(request):
 	logout(request)
 	return redirect(reverse('login'))
+
+# Returns all recent additions in the database, as JSON
+def get_items(request, time="1970-01-01T00:00+00:00"):
+    max_time = Item.get_max_time()
+    print(max_time, time)
+    items = Item.get_items(time)
+    context = {"max_time": max_time, "items": items}
+    return render(request, 'posts.json', context, content_type='application/json')
+
+
+# Returns all recent changes to the database, as JSON
+def get_changes(request, time="1970-01-01T00:00+00:00"):
+	max_time = Item.get_max_time()
+	try:
+		items = Item.get_changes(time)
+	except:
+		time = "1970-01-01T00:00+00:00"
+		items = Item.get_changes(time)
+	# print(max_time, time)
+	# items = serializers.serialize("json", items)
+	# print(items)
+	context = {"max_time": max_time, "items": items}
+	return render(request, 'posts.json', context, content_type='application/json')
+	# return JsonResponse(context)
+
+
+def add_item(request):
+    if not 'item' in request.POST or not request.POST['item']:
+        raise Http404
+    else:
+        new_item = Item(text=request.POST['item'], user=request.user)
+        new_item.save()
+    return HttpResponse("")  # Empty response on success.
+
+
+def update_comment(request):
+	if not 'comment' in request.POST or not request.POST['comment']:
+		raise Http404
+	else:
+		item_pk = request.POST['item-pk']
+		post = Item.objects.get(pk=item_pk)
+		new_comment = Comment(user=request.user, post=post, text=request.POST['comment'])
+		print(request.POST['comment'], item_pk, post)
+		new_comment.save()
+	return HttpResponse("")  # Empty response on success.
 
