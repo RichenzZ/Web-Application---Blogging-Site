@@ -1,23 +1,20 @@
 function populateList() {
     console.log("populate!");
-    // $.get("get_items")
     $.get("get_changes/" + "1970-01-01T00:00+00:00")
       .done(function(data) {
-          console.log("populate max_time");
-          console.log(data['max_time']);
           var list = $("#item-list");
           list.data('max_time', data['max_time']);
           list.html('')
           for (var i = 0; i < data.items.length; i++) {
               var item = data.items[i];
               var new_item = $(item.html);
-              new_item.data("item-id", item.id);
-              list.append(new_item);
+              new_item.data("item-id", item.id);        
               for (var j = 0; j < item.comments.length; j++) {
                   var comment = item.comments[j];
-                  var new_comment = $(comment.html);
+                  var new_comment = $(comment);
                   new_item.append(new_comment);
               }
+              list.prepend(new_item);
           }
       });
 }
@@ -26,40 +23,30 @@ function addItem(){
     var itemField = $("#item-field");
     $.post("add_item", {"item": itemField.val()})
       .done(function(data) {
-          console.log("add item!");
           getUpdates();
           itemField.val("").focus();
       });
 }
-function addcomment() {
-    var item_pk = $("#item-pk");
-    var comment = $("#comment-field");
-    console.log("comment");
-    $.post("update_comment", {"item-pk": item_pk.val(), "comment": comment.val()})
-        .done(function (data) {
-            console.log("add item!");
-            getUpdates();
-            itemField.val("").focus();
-        });
+
+function getComments(data) {
+    var list = $("#item_" + data.item_pk)
+    var new_comment = $(data.html)
+    list.append(new_comment);
 }
 
 function getUpdates() {
     var list = $("#item-list")
     var max_time = list.data("max_time")
-    console.log("update max_time");
-    console.log(max_time);
     $.post("get_changes/"+ max_time)
       .done(function(data) {
           list.data('max_time', data['max_time']);
-          console.log(data.items);
+        //   console.log(data.items);
           for (var i = 0; i < data.items.length; i++) {
               var item = data.items[i];
                 //   console.log(item);
                   var new_item = $(item.html);
                   new_item.data("item-id", item.id);
                   list.append(new_item);
-                  console.log(new_item);
-                  console.log(item.comments);
               for (var j = 0; j < item.comments.length; j++) {
                   var comment = item.comments[j];
                   var new_comment = $(comment.html);
@@ -70,44 +57,42 @@ function getUpdates() {
 }
 
 $(document).ready(function () {
-  // Add event-handlers
-//   $("#add-btn").click(addItem);
-//   $("#item-field").keypress(function (e) { if (e.which == 13) addItem(); } );
-
-//   $(".comment-add").click(addcomment);
-//   $(".comment-field").keypress(function (e) { if (e.which == 13) addcomment(); } );
-
   populateList();
-//   $(".comment-field").focus();
 
   window.setInterval(getUpdates, 10000);
 
     $('#post-form').on('submit', function (event) {
-        event.preventDefault(); // Prevent form from being submitted
+        event.preventDefault();
         var form = $(this);
         $.ajax({
             type: "POST",
             url: "add_item",
-            data: form.serialize(), // serializes the form's elements.
+            data: form.serialize(),
             success: function (data) {
                 console.log("add item!");
+                $("#item-field").val("")
                 getUpdates();
             }
         });
     });
 
-    $(".container").on("click", ".comment-add", function (event) {
-        event.preventDefault();
-        console.log("comment");
-        var item_pk = $(".item-pk");
-        var comment = $(".comment-field");
+    $(".item-list").on("click", ".comment-add", function (event) {
+        event.preventDefault(); 
+        var comment, item_pk;
+        $(".comment").each(function(){
+            if(this.value !=""){
+                comment = this.value;
+                item_pk = this.id;
+            }
+        })
         $.ajax({
             type: "POST",
             url: "update_comment",
-            data: { "item-pk": item_pk.val(), "comment": comment.val() },
+            data: { "item-pk": item_pk, "comment": comment},
             success: function (data) {
+                $(".comment").val("")
                 console.log("add comment!");
-                getUpdates();
+                getComments(data);
             }
         });
 

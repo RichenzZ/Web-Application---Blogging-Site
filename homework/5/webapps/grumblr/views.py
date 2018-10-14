@@ -292,13 +292,16 @@ def add_item(request):
 
 
 def update_comment(request):
+	context = {}
 	if not 'comment' in request.POST or not request.POST['comment']:
 		raise Http404
+		# print('no comment')
+		# return HttpResponse("")  # Empty response on success.
 	else:
 		item_pk = request.POST['item-pk']
 		post = Item.objects.get(pk=item_pk)
 		new_comment = Comment(user=request.user, post=post, text=request.POST['comment'])
-		print(request.POST['comment'], item_pk, post)
 		new_comment.save()
-	return HttpResponse("")  # Empty response on success.
+		context = {"item_pk": item_pk, "comment_html": new_comment.html}
+	return render(request, 'comment.json', context, content_type='application/json')
 

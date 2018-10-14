@@ -28,7 +28,7 @@ class Item(models.Model):
 
     @property
     def html(self):
-        return """<div class='well'><div class='row'><div class='col-sm-2'><p><a href='/view_profile/%d'> %s </a></p><img src='/photo/%d' class='img-circle' height='55' width='55'></div> <div class='col-sm-10'><p>%s<br>%s</p></div></div><p>Comments:</p><input type='text' name='comment' class='comment-field' placeholder='Add your comments!' size='35'><input type='hidden' name='item-pk' class='item-pk' value='%d'><button type='submit' class='comment-add'>Add</button></div>""" % (self.user.id, escape(self.user.username), self.user.id, escape(self.date), escape(self.text), self.pk)
+        return """<div id='item_%d' class='well'><div class='row'><div class='col-sm-2'><p><a href='/view_profile/%d'> %s </a></p><img src='/photo/%d' class='img-circle' height='55' width='55'></div> <div class='col-sm-10'><p>%s<br>%s</p></div></div><p>Comments:</p><input type='text' name='comment' class='comment' id='%d' placeholder='Add your comments!' size='35'><button type='submit' class='comment-add'>Add</button></div>""" % (self.pk, self.user.id, escape(self.user.username), self.user.id, escape(self.date), escape(self.text), self.pk)
 
 
 class Entry(models.Model):

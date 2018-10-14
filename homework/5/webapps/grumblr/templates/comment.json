@@ -1,0 +1,4 @@
+{
+"item_pk":{{item_pk}},
+"html": "{{comment_html|safe}}"
+}
