@@ -14,7 +14,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="{% url 'home' %}">Global</a></li>
                     <li><a href="{% url 'follower_stream' %}">Follower Stream</a></li>
-                    <li><a href="{% url 'profile' %}">Profile</a></li>
+                    <li><a href="{% url 'view_profile2' %}">Profile</a></li>
                     <li><a href="{% url 'edit_profile' %}">Edit Profile</a></li>
                     <li><a href="{% url 'reset_password' %}">Change Password</a></li>
                     <li><a href="{% url 'logout' %}">Log out</a></li>
@@ -57,8 +57,9 @@
             </div>
             <div class="col-sm-8 text-left">
                 <h1>Profile</h1>
+                <div class="item-list" id="profile-list">
                 {% for item in items %}
-                <div class="well">
+                <div class="well" id='item_{{item.pk}}'>
                     <div class="row">
                         <div class="col-sm-2">
                             <p>{{item.user.username}}</p>
@@ -70,10 +71,26 @@
                                 <p>{{item.date}}<br>{{item.text}}</p>
                         </div>
                     </div>
+                <p>Comments:</p>
+                {% for comment in item.comments.all %}
+                <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-2">
+                        <p><a href="{% url 'view_profile' comment.user.id%}">{{comment.user.username}}</a></p>
+                        <img src="{% url 'photo' comment.user.id %}" class="img-circle" height="40" width="40">
+                    </div>
+                    <div class="col-sm-9">
+                        <p>{{comment.date}}<br>{{comment.text}}</p>
+                    </div>
                 </div>
                 {% endfor %}
-
+                <input type='text' name='comment' id="{{item.pk}}" class='comment' placeholder='Add your comments!' size='35'>
+                <button type='submit' class='comment-add'>Add</button>
+                </div>
+                {% endfor %}
+                </div>
             </div>
+            
             <div class="col-sm-2 sidenav">
                 <div class="well">
                     {% if status is True %}

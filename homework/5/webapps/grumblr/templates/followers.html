@@ -39,8 +39,9 @@
             </div>
             <div class="col-sm-8 text-left">
                 <h1>Follower Stream</h1>
+                <div class="item-list" id="follower-list">
                 {% for item in items %}
-                <div class="well">
+                <div class="well" id='item_{{item.pk}}'>
                     <div class="row">
                         <div class="col-sm-2">
                                 <p><a href="{% url 'view_profile' item.user.id%}">{{item.user.username}}</a></p>
@@ -50,9 +51,24 @@
                                 <p>{{item.date}}<br>{{item.text}}</p>
                         </div>
                     </div>
+                <p>Comments:</p>
+                {% for comment in item.comments.all %}
+                <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-2">
+                        <p><a href="{% url 'view_profile' comment.user.id%}">{{comment.user.username}}</a></p>
+                        <img src="{% url 'photo' comment.user.id %}" class="img-circle" height="40" width="40">
+                    </div>
+                    <div class="col-sm-9">
+                        <p>{{comment.date}}<br>{{comment.text}}</p>
+                    </div>
                 </div>
                 {% endfor %}
-
+                <input type='text' name='comment' id="{{item.pk}}" class='comment' placeholder='Add your comments!' size='35'>
+                <button type='submit' class='comment-add'>Add</button>
+                </div>
+                {% endfor %}
+            </div>
             </div>
             <div class="col-sm-2 sidenav">
                 <h4>People you may want to know</h4>
