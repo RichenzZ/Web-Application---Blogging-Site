@@ -84,19 +84,14 @@ def view_profile(request, user_id=None):
 @login_required
 @transaction.atomic
 def add_post(request):
-	message = []
 	item = request.POST.get('item')
-	if not item:
-		message = "oops, you need to enter something"
-	else:
+	if item:
 		new_item = Item(text=item, user=request.user)
 		new_item.save()
 	items = Item.objects.all().order_by('-date')
 	entries = Entry.objects.filter(owner=request.user).first()
-	context = {'items': items, 'message': message, 'entries':entries}
+	context = {'items': items, 'entries':entries}
 	return render(request, 'global.html', context)
-
-# def update_post(request):
 	
 
 @login_required
@@ -259,15 +254,6 @@ def log_out(request):
 	logout(request)
 	return redirect(reverse('login'))
 
-# Returns all recent additions in the database, as JSON
-def get_items(request, time="1970-01-01T00:00+00:00"):
-    max_time = Item.get_max_time()
-    print(max_time, time)
-    items = Item.get_items(time)
-    context = {"max_time": max_time, "items": items}
-    return render(request, 'posts.json', context, content_type='application/json')
-
-
 # Returns all recent changes to the database, as JSON
 def get_changes(request, time="1970-01-01T00:00+00:00"):
 	max_time = Item.get_max_time()
@@ -293,8 +279,6 @@ def update_comment(request):
 	context = {}
 	if not 'comment' in request.POST or not request.POST['comment']:
 		raise Http404
-		# print('no comment')
-		# return HttpResponse("")  # Empty response on success.
 	else:
 		item_pk = request.POST['item-pk']
 		post = Item.objects.get(pk=item_pk)
