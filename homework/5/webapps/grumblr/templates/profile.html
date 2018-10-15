@@ -92,20 +92,16 @@
             </div>
             
             <div class="col-sm-2 sidenav">
+                {% if status is False %}
                 <div class="well">
-                    {% if status is True %}
-                    <p><a href="#">Follow</a></p>
-                    {% elif status is False%}
                     <p><a href="{% url 'follow' user.id%}">Follow</a></p>
-                    {% endif %}
                 </div>
+                {% endif %}
+                {% if status is True %}
                 <div class="well">
-                    {% if status is True %}
                     <p><a href="{% url 'unfollow' user.id %}">Unfollow</a></p>
-                    {% elif status is False%}
-                    <p><a href="#">unFollow</a></p>
-                    {% endif %}
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>
