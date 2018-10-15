@@ -66,7 +66,9 @@ def profile(request):
 	return render(request, 'profile.html', {'items': items, "user":user, 'entries':entries, 'status':status})
 
 @login_required
-def view_profile(request, user_id):
+def view_profile(request, user_id=None):
+	if not user_id:
+		user_id = request.user.id
 	user = User.objects.get(id=user_id)
 	from_person = Person.objects.get(user=request.user)
 	to_person = Person.objects.get(user=user)
@@ -274,12 +276,8 @@ def get_changes(request, time="1970-01-01T00:00+00:00"):
 	except:
 		time = "1970-01-01T00:00+00:00"
 		items = Item.get_changes(time)
-	# print(max_time, time)
-	# items = serializers.serialize("json", items)
-	# print(items)
 	context = {"max_time": max_time, "items": items}
 	return render(request, 'posts.json', context, content_type='application/json')
-	# return JsonResponse(context)
 
 
 def add_item(request):
