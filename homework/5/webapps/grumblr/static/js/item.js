@@ -1,5 +1,4 @@
 function populateList() {
-    console.log("populate!");
     $.get("get_changes/" + "1970-01-01T00:00+00:00")
       .done(function(data) {
           var list = $("#item-list");
@@ -40,27 +39,26 @@ function getUpdates() {
     $.post("get_changes/"+ max_time)
       .done(function(data) {
           list.data('max_time', data['max_time']);
-        //   console.log(data.items);
           for (var i = 0; i < data.items.length; i++) {
               var item = data.items[i];
-                //   console.log(item);
                   var new_item = $(item.html);
                   new_item.data("item-id", item.id);
-                  list.append(new_item);
               for (var j = 0; j < item.comments.length; j++) {
                   var comment = item.comments[j];
                   var new_comment = $(comment.html);
                   new_item.append(new_comment);
               }
+              list.prepend(new_item);
           }
       });
 }
 
 $(document).ready(function () {
-  populateList();
-
-  window.setInterval(getUpdates, 10000);
-
+    var itemlist = document.getElementById("item-list");
+    if (itemlist) {
+        populateList();
+        window.setInterval(getUpdates, 5000);
+    } 
     $('#post-form').on('submit', function (event) {
         event.preventDefault();
         var form = $(this);
@@ -69,7 +67,6 @@ $(document).ready(function () {
             url: "add_item",
             data: form.serialize(),
             success: function (data) {
-                console.log("add item!");
                 $("#item-field").val("")
                 getUpdates();
             }
@@ -87,11 +84,10 @@ $(document).ready(function () {
         })
         $.ajax({
             type: "POST",
-            url: "update_comment",
+            url: "/update_comment",
             data: { "item-pk": item_pk, "comment": comment},
             success: function (data) {
                 $(".comment").val("")
-                console.log("add comment!");
                 getComments(data);
             }
         });
