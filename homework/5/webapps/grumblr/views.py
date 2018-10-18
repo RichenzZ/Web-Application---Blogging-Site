@@ -26,7 +26,6 @@ def home(request):
     items = Item.objects.all().order_by('-date')
     entries = Entry.objects.filter(owner=request.user).first()
     return render(request, 'global.html', {"items": items, "user": request.user, 'entries':entries})
-	# return render(request, 'global.html', {})
 
 @login_required
 def follower_stream(request):
@@ -254,7 +253,7 @@ def log_out(request):
 	logout(request)
 	return redirect(reverse('login'))
 
-# Returns all recent changes to the database, as JSON
+@login_required
 def get_changes(request, time="1970-01-01T00:00+00:00"):
 	max_time = Item.get_max_time()
 	try:
@@ -265,16 +264,16 @@ def get_changes(request, time="1970-01-01T00:00+00:00"):
 	context = {"max_time": max_time, "items": items}
 	return render(request, 'posts.json', context, content_type='application/json')
 
-
+@login_required
 def add_item(request):
     if not 'item' in request.POST or not request.POST['item']:
         raise Http404
     else:
         new_item = Item(text=request.POST['item'], user=request.user)
         new_item.save()
-    return HttpResponse("")  # Empty response on success.
+    return HttpResponse("")
 
-
+@login_required
 def update_comment(request):
 	context = {}
 	if not 'comment' in request.POST or not request.POST['comment']:
