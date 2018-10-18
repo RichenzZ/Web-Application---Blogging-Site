@@ -1,4 +1,0 @@
-{
-"max_time":"{{max_time|date:"c"}}", 
-"items":[{% for item in items %}{% include 'post.json' %}{% if not forloop.last %}, {% endif %}{% endfor %}]
-}
