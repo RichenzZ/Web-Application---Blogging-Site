@@ -55,7 +55,6 @@ class Comment(models.Model):
 
     @property
     def html(self):
-        # return ""
         return """<div class='row'><div class='col-sm-1'></div><div class='col-sm-2'><p><a href='/view_profile/%d'>%s</a></p><img src='/photo/%d' class='img-circle' height='40' width='40'></div><div class='col-sm-9'><p>%s<br>%s</p></div></div>""" % (self.user.id, escape(self.user.username), self.user.id, escape(self.date), escape(self.text))
 
 
