@@ -1,1 +1,0 @@
-The instructions for this class' in-class exercise are on Piazza.

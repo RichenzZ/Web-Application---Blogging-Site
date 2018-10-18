@@ -1,7 +1,0 @@
-{
-  "course" : "{{course}}", 
-  "course_number" : "{{course.course_number}}",
-  "students" : [
-    {% for student in course.students.all %}"{{student}}"{% if not forloop.last %}, {% endif %}{% endfor %}
-  ]
-}
